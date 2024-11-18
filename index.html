@@ -106,7 +106,7 @@
     </div>
 
     <div class="container" id="calculoMedia" style="display: none;">
-        <h1>Cálculo de Médias</h1>
+        <h1>Cálculo de Médias das Disciplinas</h1>
         <p>Escolha uma disciplina para calcular a média:</p>
         <select id="disciplinaSelect">
             <option value="0">Disciplina 1</option>
@@ -116,6 +116,13 @@
         <button onclick="calcularMedia()">Calcular Média</button>
         <div id="resultado"></div>
         <button onclick="resetarEscolha()">Escolher Outra Disciplina</button>
+<h1>Cálculo de Médias dos Alunos</h1>
+<select id="alunoSelect">
+            <option value="" disabled selected>Selecione um aluno</option>
+        </select>
+        <button onclick="calcularMediaAluno()">Calcular Média</button>
+        <div id="resultadoAluno"></div>
+        <button onclick="resetarEscolha()">Escolher Outro Aluno</button>
     </div>
 
     <script>
@@ -198,6 +205,23 @@
         function resetarEscolha() {
             document.getElementById('resultado').innerText = '';
             document.getElementById('disciplinaSelect').value = '0';
+
+function calcularMediaAluno() {
+            let alunoIndex = parseInt(document.getElementById('alunoSelect').value);
+            if (!isNaN(alunoIndex)) {
+                let somaNotas = notas[alunoIndex].reduce((a, b) => a + b, 0);
+                let mediaNotas = somaNotas / notas[alunoIndex].length;
+                let resultadoTexto = `${alunos[alunoIndex]}: Média ${mediaNotas.toFixed(2)}`;
+
+                document.getElementById('resultadoAluno').innerText = resultadoTexto;
+            } else {
+                alert('Por favor, selecione um aluno.');
+            }
+        }
+
+        function resetarEscolha() {
+            document.getElementById('resultadoAluno').innerText = '';
+            document.getElementById('alunoSelect').value = '';
         }
     </script>
 </body>
