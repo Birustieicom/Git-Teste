@@ -2,11 +2,148 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git Teste</title>
+    <title>Sistema de Notas dos Alunos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #resultado {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input {
+            margin: 5px 0;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Git Teste</h1>
+    <div class="container" id="entradaAlunos">
+        <h1>Sistema de Notas dos Alunos</h1>
+        <div id="alunoForm">
+            <input type="text" id="nomeAluno" placeholder="Nome do Aluno">
+            <input type="number" id="nota1" placeholder="Nota da Disciplina 1" min="0" max="10">
+            <input type="number" id="nota2" placeholder="Nota da Disciplina 2" min="0" max="10">
+            <input type="number" id="nota3" placeholder="Nota da Disciplina 3" min="0" max="10">
+            <button onclick="adicionarAluno()">Adicionar Aluno</button>
+        </div>
+    </div>
+
+    <div class="container" id="calculoMedia" style="display: none;">
+        <h1>Cálculo de Médias</h1>
+        <p>Escolha uma disciplina para calcular a média:</p>
+        <select id="disciplinaSelect">
+            <option value="0">Disciplina 1</option>
+            <option value="1">Disciplina 2</option>
+            <option value="2">Disciplina 3</option>
+        </select>
+        <button onclick="calcularMedia()">Calcular Média</button>
+        <div id="resultado"></div>
+        <button onclick="resetarEscolha()">Escolher Outra Disciplina</button>
+    </div>
+
+    <script>
+        let alunos = [];
+        let notas = [];
+
+        function adicionarAluno() {
+            let nome = document.getElementById('nomeAluno').value;
+            let nota1 = parseFloat(document.getElementById('nota1').value);
+            let nota2 = parseFloat(document.getElementById('nota2').value);
+            let nota3 = parseFloat(document.getElementById('nota3').value);
+
+            if (nome && !isNaN(nota1) && !isNaN(nota2) && !isNaN(nota3)) {
+                alunos.push(nome);
+                notas.push([nota1, nota2, nota3]);
+
+                if (alunos.length >= 5) {
+                    document.getElementById('entradaAlunos').style.display = 'none';
+                    document.getElementById('calculoMedia').style.display = 'block';
+                } else {
+                    document.getElementById('nomeAluno').value = '';
+                    document.getElementById('nota1').value = '';
+                    document.getElementById('nota2').value = '';
+                    document.getElementById('nota3').value = '';
+                }
+            } else {
+                alert('Por favor, preencha todas as informações corretamente.');
+            }
+        }
+
+        function calcularMedia() {
+            let disciplina = parseInt(document.getElementById('disciplinaSelect').value);
+            let soma = 0;
+
+            for (let i = 0; i < notas.length; i++) {
+                soma += notas[i][disciplina];
+            }
+
+            let media = soma / notas.length;
+            let resultadoTexto = '';
+
+            switch (true) {
+                case (media >= 6):
+                    resultadoTexto = `Média da Disciplina ${disciplina + 1}: ${media.toFixed(2)} - Aprovado`;
+                    break;
+                case (media >= 4 && media < 6):
+                    resultadoTexto = `Média da Disciplina ${disciplina + 1}: ${media.toFixed(2)} - Recuperação`;
+                    break;
+                case (media < 4):
+                    resultadoTexto = `Média da Disciplina ${disciplina + 1}: ${media.toFixed(2)} - Reprovado`;
+                    break;
+            }
+
+            document.getElementById('resultado').innerText = resultadoTexto;
+        }
+
+        function resetarEscolha() {
+            document.getElementById('resultado').innerText = '';
+            document.getElementById('disciplinaSelect').value = '0';
+        }
+    </script>
 </body>
 </html>
