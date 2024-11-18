@@ -61,15 +61,15 @@
         }
 
         #modalDisciplinas {
-            display: block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
         }
 
         .modal-content {
@@ -107,15 +107,27 @@
 
     <div class="container" id="calculoMedia" style="display: none;">
         <h1>Cálculo de Médias</h1>
-        <p>Escolha uma disciplina para calcular a média:</p>
-        <select id="disciplinaSelect">
-            <option value="0">Disciplina 1</option>
-            <option value="1">Disciplina 2</option>
-            <option value="2">Disciplina 3</option>
+        <p>Escolha uma opção de cálculo:</p>
+        <select id="calculoSelect">
+            <option value="disciplina">Média por Disciplina</option>
+            <option value="aluno">Média por Aluno</option>
         </select>
-        <button onclick="calcularMedia()">Calcular Média</button>
+        <div id="opcaoDisciplina" style="display: block;">
+            <p>Escolha uma disciplina:</p>
+            <select id="disciplinaSelect">
+                <option value="0">Disciplina 1</option>
+                <option value="1">Disciplina 2</option>
+                <option value="2">Disciplina 3</option>
+            </select>
+            <button onclick="calcularMediaDisciplina()">Calcular Média da Disciplina</button>
+        </div>
+        <div id="opcaoAluno" style="display: none;">
+            <p>Escolha um aluno:</p>
+            <select id="alunoSelect"></select>
+            <button onclick="calcularMediaAluno()">Calcular Média do Aluno</button>
+        </div>
         <div id="resultado"></div>
-        <button onclick="resetarEscolha()">Escolher Outra Disciplina</button>
+        <button onclick="resetarEscolha()">Escolher Outra Opção</button>
     </div>
 
     <script>
@@ -155,6 +167,11 @@
                 alunos.push(nome);
                 notas.push([nota1, nota2, nota3]);
 
+                let alunoOption = document.createElement('option');
+                alunoOption.value = alunos.length - 1;
+                alunoOption.text = nome;
+                document.getElementById('alunoSelect').appendChild(alunoOption);
+
                 if (alunos.length >= 5) {
                     document.getElementById('entradaAlunos').style.display = 'none';
                     document.getElementById('calculoMedia').style.display = 'block';
@@ -169,7 +186,7 @@
             }
         }
 
-        function calcularMedia() {
+        function calcularMediaDisciplina() {
             let disciplina = parseInt(document.getElementById('disciplinaSelect').value);
             let soma = 0;
 
@@ -195,10 +212,6 @@
             document.getElementById('resultado').innerText = resultadoTexto;
         }
 
-        function resetarEscolha() {
-            document.getElementById('resultado').innerText = '';
-            document.getElementById('disciplinaSelect').value = '0';
-        }
-    </script>
-</body>
-</html>
+        function calcularMediaAluno() {
+            let alunoIndex = parseInt(document.getElementById('alunoSelect').value);
+            let soma = notas[alunoIndex].reduce((a, b) => a + b, 0
