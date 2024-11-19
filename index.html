@@ -17,10 +17,11 @@
         }
 
         .container {
-            background-color: #E4FFD9;
+            background-color: #cdf7bc;
             padding: 20px;
+            border-color: solid 2px black;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.685);
             text-align: center;
             max-width: 400px;
             width: 100%;
@@ -60,7 +61,7 @@
             border-radius: 5px;
         }
 
-        #modalDisciplinas {
+        #ygonaMoura {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -72,67 +73,69 @@
             background-color: rgba(32, 255, 0, 0.5);
         }
 
-        .modal-content {
-            background-color: #E4FFD9;
+        .agathaNunes {
+            background-color: #cdf7bc;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-color: solid 2px black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.685);
             text-align: center;
             max-width: 300px;
             width: 100%;
         }
 
-        #mediaAlunos {
+        #mda {
             margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div id="modalDisciplinas">
-        <div class="modal-content">
+    <div id="ygonaMoura">
+        <div class="agathaNunes">
             <h2>Defina os Nomes das Disciplinas</h2>
             <input type="text" id="disciplina1" placeholder="Nome da Disciplina 1">
             <input type="text" id="disciplina2" placeholder="Nome da Disciplina 2">
             <input type="text" id="disciplina3" placeholder="Nome da Disciplina 3">
-            <button onclick="definirDisciplinas()">Salvar Disciplinas</button>
+            <button onclick="definirdisciplinas()">Salvar Disciplinas</button>
         </div>
-    </div>
+    </div> <!--Ela não anda, ela desfila-->
 
-    <div class="container" id="entradaAlunos" style="display: none;">
+    <div class="container" id="eda" style="display: none;">
         <h1>Cadastro de Alunos e Notas</h1>
-        <div id="alunoForm">
-            <input type="text" id="nomeAluno" placeholder="Nome do Aluno">
+        <div id="aff">
+            <input type="text" id="nomedoaluno" placeholder="Nome do Aluno">
             <input type="number" id="nota1" placeholder="Nota da Disciplina 1" min="0" max="10">
             <input type="number" id="nota2" placeholder="Nota da Disciplina 2" min="0" max="10">
             <input type="number" id="nota3" placeholder="Nota da Disciplina 3" min="0" max="10">
-            <button onclick="adicionarAluno()">Adicionar Aluno</button>
+            <button onclick="addalunokk()">Adicionar Aluno</button>
         </div>
     </div>
+    <!--Ela é top, capa de revista-->
 
-    <div class="container" id="mediaAlunos" style="display: none;">
+    <div class="container" id="mda" style="display: none;">
         <h1>Média das Notas dos Alunos</h1>
-        <select id="alunoSelect">
+        <select id="as">
             <option value="" disabled selected>Selecione um aluno</option>
         </select>
-        <button onclick="calcularMediaAluno()">Calcular Média</button>
-        <div id="resultadoAluno"></div>
-        <button onclick="resetarEscolha()">Escolher Outro Aluno</button>
+        <button onclick="CMA()">Calcular Média</button>
+        <div id="rs"></div>
+        <button onclick="zerarescolha()">Escolher Outro Aluno</button>
     </div>
-
+<!--"Tô com vergonha, vergoinha, tô com vergonha, sou tão tímida" by Blogueirinha, A Feia-->
     <script>
         let alunos = [];
         let notas = [];
         let disciplinas = [];
 
-        function definirDisciplinas() {
-            let nomeDisciplina1 = document.getElementById('disciplina1').value;
-            let nomeDisciplina2 = document.getElementById('disciplina2').value;
-            let nomeDisciplina3 = document.getElementById('disciplina3').value;
+        function definirdisciplinas() {
+            let ndD1 = document.getElementById('disciplina1').value;
+            let ndD2 = document.getElementById('disciplina2').value;
+            let ndD3 = document.getElementById('disciplina3').value;
 
-            if (nomeDisciplina1 && nomeDisciplina2 && nomeDisciplina3) {
-                disciplinas = [nomeDisciplina1, nomeDisciplina2, nomeDisciplina3];
-                document.getElementById('modalDisciplinas').style.display = 'none';
-                document.getElementById('entradaAlunos').style.display = 'block';
+            if (ndD1 && ndD2 && ndD3) {
+                disciplinas = [ndD1, ndD2, ndD3];
+                document.getElementById('ygonaMoura').style.display = 'none';
+                document.getElementById('eda').style.display = 'block';
 
                 document.getElementById('nota1').placeholder = `Nota de ${disciplinas[0]}`;
                 document.getElementById('nota2').placeholder = `Nota de ${disciplinas[1]}`;
@@ -142,8 +145,8 @@
             }
         }
 
-        function adicionarAluno() {
-            let nome = document.getElementById('nomeAluno').value;
+        function addalunokk() {
+            let nome = document.getElementById('nomedoaluno').value;
             let nota1 = parseFloat(document.getElementById('nota1').value);
             let nota2 = parseFloat(document.getElementById('nota2').value);
             let nota3 = parseFloat(document.getElementById('nota3').value);
@@ -153,16 +156,16 @@
                 notas.push([nota1, nota2, nota3]);
 
                 if (alunos.length >= 1) {
-                    let alunoSelect = document.getElementById('alunoSelect');
+                    let as = document.getElementById('as');
                     let option = document.createElement('option');
                     option.value = alunos.length - 1;
                     option.text = nome;
-                    alunoSelect.appendChild(option);
+                    as.appendChild(option);
 
-                    document.getElementById('entradaAlunos').style.display = 'block';
-                    document.getElementById('mediaAlunos').style.display = 'block';
+                    document.getElementById('eda').style.display = 'block';
+                    document.getElementById('mda').style.display = 'block';
 
-                    document.getElementById('nomeAluno').value = '';
+                    document.getElementById('nomedoaluno').value = '';
                     document.getElementById('nota1').value = '';
                     document.getElementById('nota2').value = '';
                     document.getElementById('nota3').value = '';
@@ -171,23 +174,24 @@
                 alert('Por favor, preencha todas as informações corretamente.');
             }
         }
+        //OMG, IT'S A CAR OF THE EGGS HAHAHAHA//
 
-        function calcularMediaAluno() {
-            let alunoIndex = parseInt(document.getElementById('alunoSelect').value);
-            if (!isNaN(alunoIndex)) {
-                let somaNotas = notas[alunoIndex].reduce((a, b) => a + b, 0);
-                let mediaNotas = somaNotas / notas[alunoIndex].length;
-                let resultadoTexto = `${alunos[alunoIndex]}: Média ${mediaNotas.toFixed(2)}`;
+        function CMA() {
+            let AI = parseInt(document.getElementById('as').value);
+            if (!isNaN(AI)) {
+                let sn = notas[AI].reduce((a, b) => a + b, 0);
+                let md = sn / notas[AI].length;
+                let rt = `${alunos[AI]}: Média ${md.toFixed(2)}`;
 
-                document.getElementById('resultadoAluno').innerText = resultadoTexto;
+                document.getElementById('rs').innerText = rt;
             } else {
                 alert('Por favor, selecione um aluno.');
             }
         }
 
-        function resetarEscolha() {
-            document.getElementById('resultadoAluno').innerText = '';
-            document.getElementById('alunoSelect').value = '';
+        function zerarescolha() {
+            document.getElementById('rs').innerText = '';
+            document.getElementById('as').value = '';
         }
     </script>
 </body>
